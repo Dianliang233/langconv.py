@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "languageconverter"
+version = "0.1.0"
+description = ""
+authors = ["Dianliang233 <dianliang233@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+attrs = "^23.1.0"
+iso639-lang = "^2.1.0"
+datrie = "^0.8.2"
+marisa-trie = "^0.8.0"
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.2"
+ruff = "^0.0.267"
+pytest = "^7.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.autopep8]
+max_line_length = 120
+in-place = true
+recursive = true
+aggressive = 3
+
+[tool.pyright]
+reportUndefinedVariable = 'error'
+typeCheckingMode = 'strict'
+
+[tool.ruff]
+select = ["E", "F", "I", "N", "UP", "S", "B", "A", "SIM", "PL"]
+ignore = ["E501", "S101"]
