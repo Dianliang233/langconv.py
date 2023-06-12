@@ -32,3 +32,4 @@ typeCheckingMode = 'strict'
 [tool.ruff]
 select = ["E", "F", "I", "N", "UP", "S", "B", "A", "SIM", "PL"]
 ignore = ["E501", "S101"]
+exclude = ["typings/**/*"]

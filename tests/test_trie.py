@@ -1,4 +1,5 @@
 import json
+
 from langconv.trie import DoubleArrayTrie
 
 # pyright: reportOptionalMemberAccess=false
@@ -20,6 +21,7 @@ def test_insert_and_search():
     assert trie.search('zebra').value == 'animal'
     assert trie.search('pear') is None
     assert trie.search('caterpillar') is None
+
 
 def test_insert_and_search_single():
     trie = DoubleArrayTrie()
@@ -90,6 +92,7 @@ def test_delete_nonexistent():
     trie.delete("goodbye")
     assert trie.search("hello").value == "world"
 
+
 def test_from_dict():
     dictionary = {'hello': 'world', 'hey': 'there', 'hi': 'everyone'}
     trie = DoubleArrayTrie.from_dict(dictionary)
@@ -98,6 +101,7 @@ def test_from_dict():
     assert trie.search('hi').value == 'everyone'
     assert trie.search('invalid') is None
 
+
 def test_longest_prefix():
     trie = DoubleArrayTrie()
     trie.insert('hello', 'world')
@@ -105,6 +109,7 @@ def test_longest_prefix():
     assert trie.longest_prefix('hello world').value == 'world'
     assert trie.longest_prefix('hey there!').value == 'there'
     assert trie.longest_prefix('not in trie') is None
+
 
 def test_load_large_json():
     with open('languageconverter/data/zh/hant.json', encoding='utf-8') as f:
