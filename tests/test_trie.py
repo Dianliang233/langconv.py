@@ -112,6 +112,6 @@ def test_longest_prefix():
 
 
 def test_load_large_json():
-    with open('languageconverter/data/zh/hant.json', encoding='utf-8') as f:
+    with open('langconv/data/zh/hant.json', encoding='utf-8') as f:
         trie = DoubleArrayTrie.from_dict(json.load(f))
         assert trie.longest_prefix('维基百科繁简处理是中文维基百科的自动转换，目的是以电脑程序适应不同用字模式的差异。').value == '維'

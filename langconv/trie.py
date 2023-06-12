@@ -1,9 +1,16 @@
+from attrs import define, field
+
+# NOTE: If the memory usage ever gets too large, we can use ints instead of strs for keys
+# e.g. ord('我') = 25105, sys.getsizeof(25105) = 28, sys.getsizeof('我') = 76
+# saves 48 bytes per CJK key
+
+
+@define
 class Node:
-    def __init__(self, key: str, value: str, parent: 'Node | None' = None):
-        self.key = key
-        self.parent = parent
-        self.value = value
-        self.children: dict[str, 'Node'] = {}
+    key: str
+    value: str
+    parent: 'Node | None' = field(default=None)
+    children: dict[str, 'Node'] = field(factory=dict)
 
     def add_child(self, child: 'Node', key: str) -> None:
         self.children[key] = child
@@ -19,13 +26,10 @@ class Node:
             node = node.parent
         return key
 
-    def __repr__(self) -> str:
-        return f'Node(key={self.key}, value={self.value}, children={self.children})'
 
-
+@define
 class DoubleArrayTrie:
-    def __init__(self):
-        self.root = Node('', '')
+    root: Node = field(factory=lambda: Node('', ''))
 
     def insert(self, key: str, value: str) -> None:
         node = self.root
