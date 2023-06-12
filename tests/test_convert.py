@@ -1,4 +1,4 @@
-from languageconverter.language.zh import zh_cn  # , zh_hk, zh_tw
+from langconv.language.zh import zh_cn  # , zh_hk, zh_tw
 
 
 def test_zh_cn():

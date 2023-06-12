@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "languageconverter"
+name = "langconv"
 version = "0.1.0"
 description = ""
 authors = ["Dianliang233 <dianliang233@gmail.com>"]
@@ -9,8 +9,6 @@ readme = "README.md"
 python = "^3.11"
 attrs = "^23.1.0"
 iso639-lang = "^2.1.0"
-datrie = "^0.8.2"
-marisa-trie = "^0.8.0"
 
 [tool.poetry.group.dev.dependencies]
 autopep8 = "^2.0.2"

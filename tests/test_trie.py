@@ -1,5 +1,5 @@
 import json
-from languageconverter.trie import DoubleArrayTrie
+from langconv.trie import DoubleArrayTrie
 
 # pyright: reportOptionalMemberAccess=false
 
