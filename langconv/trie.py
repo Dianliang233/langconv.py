@@ -80,6 +80,21 @@ class DoubleArrayTrie:
             longest_match = longest_match.parent
         return longest_match
 
+    def __contains__(self, key: str) -> bool:
+        return self.search(key) is not None
+
+    def __getitem__(self, key: str) -> str:
+        res = self.search(key)
+        if res is None:
+            raise KeyError(key)
+        return res.value
+
+    def __setitem__(self, key: str, value: str) -> None:
+        self.insert(key, value)
+
+    def __delitem__(self, key: str) -> None:
+        self.delete(key)
+
     @classmethod
     def from_dict(cls, dictionary: dict[str, str]) -> 'DoubleArrayTrie':
         obj = cls()

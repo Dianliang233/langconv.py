@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 attrs = "^23.1.0"
 iso639-lang = "^2.1.0"
+pytest-benchmark = "^4.0.0"
 
 [tool.poetry.group.dev.dependencies]
 autopep8 = "^2.0.2"
@@ -27,6 +28,7 @@ aggressive = 3
 
 [tool.pyright]
 reportUndefinedVariable = 'error'
+reportUnusedVariable = 'none'
 typeCheckingMode = 'strict'
 
 [tool.ruff]
