@@ -9,6 +9,7 @@ from attrs import define, field
 class Node:
     key: str
     value: str
+    full_key: str
     parent: 'Node | None' = field(default=None)
     children: dict[str, 'Node'] = field(factory=dict)
 
@@ -18,25 +19,17 @@ class Node:
     def get_child(self, key: str) -> 'Node | None':
         return self.children.get(key)
 
-    def get_full_key(self) -> str:
-        node = self
-        key = ''
-        while node is not None:
-            key = node.key + key
-            node = node.parent
-        return key
-
 
 @define
 class DoubleArrayTrie:
-    root: Node = field(factory=lambda: Node('', ''))
+    root: Node = field(factory=lambda: Node('', '', ''))
 
     def insert(self, key: str, value: str) -> None:
         node = self.root
         for char in key:
-            child_node = node.get_child(char)
+            child_node = node.children.get(char)
             if child_node is None:
-                child_node = Node(char, '', node)
+                child_node = Node(char, '', node.full_key + char, node)
                 node.add_child(child_node, char)
             node = child_node
         node.value = value
@@ -58,7 +51,7 @@ class DoubleArrayTrie:
         while node is not None and (not hasattr(node, 'children') or len(node.children) == 0):
             parent = node.parent
             if parent is None:
-                self.root = Node('', '')
+                self.root = Node('', '', '')
                 break
             parent.children.pop(node.key, None)
             node = parent
@@ -72,7 +65,7 @@ class DoubleArrayTrie:
         longest_match = None
         for char in key:
             child_node = node.get_child(char)
-            if child_node is None or not key.startswith(child_node.get_full_key()):
+            if child_node is None or not key.startswith(child_node.full_key):
                 break
             node = child_node
             longest_match = node

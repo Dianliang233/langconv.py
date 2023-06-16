@@ -218,7 +218,7 @@ class LanguageConverter():
             match = self.longest_prefix(text[i:i + SECTION_LENGTH], [trie])
             if match:
                 output += match.value
-                i += len(match.get_full_key())
+                i += len(match.full_key)
             else:
                 output.append(text[i])
                 i += 1
