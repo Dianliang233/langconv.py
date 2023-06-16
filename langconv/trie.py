@@ -57,7 +57,7 @@ class DoubleArrayTrie:
             node = parent
             if hasattr(node, 'children') and len(node.children) > 0:
                 break
-            node.parent.children.pop(node.key, None)
+            node.parent.children.pop(node.key, None) # type: ignore If it has a parent, then parent must has children
             node = node.parent
 
     def longest_prefix(self, key: str) -> Node | None:
@@ -65,7 +65,7 @@ class DoubleArrayTrie:
         longest_match = None
         for char in key:
             child_node = node.get_child(char)
-            if child_node is None or not key.startswith(child_node.full_key):
+            if child_node is None or key[0:len(child_node.full_key)] != child_node.full_key:
                 break
             node = child_node
             longest_match = node
