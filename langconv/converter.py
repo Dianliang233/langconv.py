@@ -1,7 +1,7 @@
 import re
 from enum import Enum
-from attr import field
 
+from attr import field
 from attrs import define
 
 from langconv.language import Language
@@ -10,8 +10,9 @@ from langconv.trie import DoubleArrayTrie, Node
 SECTION_LENGTH = 30 - 1
 # We assume that the longest match will be 30 characters long to save mem
 
+
 @define
-class LCMarkup():
+class LCMarkup:
     class Flag(Enum):
         HIDDEN = 'H'
         """Insert a conversion rule without output."""
@@ -38,7 +39,7 @@ class LCMarkup():
         """(Real) empty flag."""
 
     @define
-    class Rule():
+    class Rule:
         pass
 
     @define
@@ -80,7 +81,7 @@ class LCMarkup():
     class Empty(Rule):
         pass
 
-    flags: tuple[Flag]
+    flags: tuple[Flag, ...]
     rule: Rule
 
     @classmethod
@@ -136,8 +137,9 @@ class LCMarkup():
 
         return cls(flags=flags, rule=rules)
 
+
 @define
-class LanguageConverter():
+class LanguageConverter:
     language: Language
     rules: list[DoubleArrayTrie]
     is_initialized: bool = field(default=False)
@@ -150,7 +152,6 @@ class LanguageConverter():
                 return match
         return None
 
-
     def convert(self, text: str, *, sequential_global: bool = False, avoid_html_code: bool = False) -> str:
         '''Converts the given text to this language.
 
@@ -159,12 +160,19 @@ class LanguageConverter():
         :param ignore_html: Whether to ignore "code" HTML tags (<pre>, <code> and <script>).
         '''
 
-        def insert_global_rule(rule: LCMarkup.Unidirectional | LCMarkup.Omnidirectional, trie: DoubleArrayTrie, language: Language) -> None:
+        def insert_global_rule(
+                rule: LCMarkup.Unidirectional | LCMarkup.Omnidirectional,
+                trie: DoubleArrayTrie,
+                language: Language) -> None:
             result = rule.localize(language)
             if result:
                 for key, value in result[0].items():
                     trie.insert(key, value)
-        def delete_global_rule(rule: LCMarkup.Unidirectional | LCMarkup.Omnidirectional, trie: DoubleArrayTrie, language: Language) -> None:
+
+        def delete_global_rule(
+                rule: LCMarkup.Unidirectional | LCMarkup.Omnidirectional,
+                trie: DoubleArrayTrie,
+                language: Language) -> None:
             result = rule.localize(language)
             if result:
                 for key, _ in result[0].items():

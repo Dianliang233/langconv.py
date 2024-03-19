@@ -30,6 +30,16 @@ def test_insert_and_search_single():
     assert trie.search('b') is None
 
 
+def test_insert_and_search_item():
+    trie = DoubleArrayTrie()
+    trie['apple'] = 'fruit'
+    assert trie['apple'] == 'fruit'
+    assert 'apple' in trie
+    trie.delete('apple')
+    assert trie['apple'] is None
+    assert 'apple' not in trie
+
+
 def test_insert_and_search_long():
     trie = DoubleArrayTrie()
     trie.insert('a' * 1000, 'long')

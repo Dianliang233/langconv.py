@@ -47,17 +47,13 @@ class DoubleArrayTrie:
         node = self.search(key)
         if node is None:
             return
-        node.value = ''
-        while node is not None and (not hasattr(node, 'children') or len(node.children) == 0):
-            parent = node.parent
-            if parent is None:
+        while True:
+            if node.parent is None:
                 self.root = Node('', '', '')
                 break
-            parent.children.pop(node.key, None)
-            node = parent
-            if hasattr(node, 'children') and len(node.children) > 0:
+            node.parent.children.pop(node.key, None)
+            if len(node.parent.children) == 0:
                 break
-            node.parent.children.pop(node.key, None) # type: ignore If it has a parent, then parent must has children
             node = node.parent
 
     def longest_prefix(self, key: str) -> Node | None:
@@ -76,11 +72,9 @@ class DoubleArrayTrie:
     def __contains__(self, key: str) -> bool:
         return self.search(key) is not None
 
-    def __getitem__(self, key: str) -> str:
+    def __getitem__(self, key: str) -> str | None:
         res = self.search(key)
-        if res is None:
-            raise KeyError(key)
-        return res.value
+        return None if res is None else res.value
 
     def __setitem__(self, key: str, value: str) -> None:
         self.insert(key, value)

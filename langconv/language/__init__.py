@@ -1,7 +1,7 @@
 import json
 import os
-from attr import field
 
+from attr import field
 from attrs import define
 
 # from iso639.iso639 import Lang
@@ -9,7 +9,7 @@ from langconv.trie import DoubleArrayTrie
 
 
 @define
-class Language():
+class Language:
     '''Representation of a language.'''
 
     code: str = field(converter=str.lower)
