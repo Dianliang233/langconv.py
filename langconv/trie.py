@@ -21,7 +21,7 @@ class Node:
 
 
 @define
-class DoubleArrayTrie:
+class Trie:
     root: Node = field(factory=lambda: Node('', '', ''))
 
     def insert(self, key: str, value: str) -> None:
@@ -60,13 +60,13 @@ class DoubleArrayTrie:
         node = self.root
         longest_match = None
         for char in key:
-            child_node = node.get_child(char)
-            if child_node is None or key[0:len(child_node.full_key)] != child_node.full_key:
+            child = node.get_child(char)
+            if child is None:
                 break
-            node = child_node
-            longest_match = node
-        while longest_match is not None and not longest_match.value:
-            longest_match = longest_match.parent
+            elif child.value:
+                longest_match = child
+            node = child
+
         return longest_match
 
     def __contains__(self, key: str) -> bool:
@@ -83,7 +83,7 @@ class DoubleArrayTrie:
         self.delete(key)
 
     @classmethod
-    def from_dict(cls, dictionary: dict[str, str]) -> 'DoubleArrayTrie':
+    def from_dict(cls, dictionary: dict[str, str]) -> 'Trie':
         obj = cls()
         for key, value in dictionary.items():
             obj.insert(key, value)

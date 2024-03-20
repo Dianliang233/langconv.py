@@ -23,16 +23,17 @@ pre-commit = "^3.6.2"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.autopep8]
-max_line_length = 120
-in-place = true
-recursive = true
-aggressive = 3
-
 [tool.pyright]
 reportUndefinedVariable = 'error'
 reportUnusedVariable = 'none'
 typeCheckingMode = 'strict'
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "UP", "S", "B", "A", "SIM", "PL"]
@@ -40,5 +41,5 @@ ignore = ["E501", "S101"]
 exclude = ["typings/**/*"]
 
 [tool.pytest.ini_options]
-markers = ["slow"]
+markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]
 addopts = "--cov=langconv --cov-report xml --cov-report term -m 'not slow'"

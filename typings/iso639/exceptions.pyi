@@ -12,17 +12,10 @@ class InvalidLanguageValue(Exception):
     - ISO 639-3 language code
     - ISO 639-5 language code
     """
-    def __init__(self, *args, **kwargs) -> None:
-        ...
-    
-
+    def __init__(self, *args, **kwargs) -> None: ...
 
 class DeprecatedLanguageValue(Exception):
     """Exception raised when the arguments and keyword arguments passed to the
     Lang constructor point to a deprecated ISO 639-3 language code
     """
-    def __init__(self, *args, **kwargs) -> None:
-        ...
-    
-
-
+    def __init__(self, *args, **kwargs) -> None: ...

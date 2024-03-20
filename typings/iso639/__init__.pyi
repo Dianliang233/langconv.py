@@ -7,6 +7,7 @@ from collections.abc import Iterator
 from .iso639 import Lang
 
 Lang = ...
+
 def iter_langs() -> Iterator[Lang]:
     """Iterate through all not deprecated ISO 639 languages
 
@@ -16,4 +17,3 @@ def iter_langs() -> Iterator[Lang]:
         Lang instances ordered alphabetically by name
     """
     ...
-
