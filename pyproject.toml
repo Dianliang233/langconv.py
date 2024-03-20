@@ -1,9 +1,25 @@
 [tool.poetry]
 name = "langconv"
 version = "0.2.0"
-description = ""
+description = "A Python library for conversion between Traditional and Simplified Chinese, inspired by MediaWiki's LanguageConverter."
+license = "MIT"
 authors = ["Dianliang233 <dianliang233@gmail.com>"]
 readme = "README.md"
+repository = "https://github.com/Teahouse-Studios/langconv.py"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: Chinese (Simplified)",
+    "Natural Language :: Chinese (Traditional)",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Internationalization",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Localization",
+    "Topic :: Text Processing :: Linguistic",
+    "Typing :: Typed",
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
