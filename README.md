@@ -19,7 +19,7 @@ from langconv.converter import LanguageConverter
 from langconv.language.zh import zh_cn, zh_tw  # zh_hk also supported
 
 lc_cn = LanguageConverter.from_language(zh_cn)  # target variant set to zh-cn
-lc_tw = LanguageConverter.from_language(zh_tw)  # target variant set to zh-cn
+lc_tw = LanguageConverter.from_language(zh_tw)  # target variant set to zh-tw
 
 print(lc_cn.convert('人人生而自由，在尊嚴和權利上一律平等。他們賦有理性和良心，並應以兄弟關係的精神相對待。'))
 # Expected:          人人生而自由，在尊严和权利上一律平等。他们赋有理性和良心，并应以兄弟关系的精神相对待。
