@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "langconv"
-version = "0.2.0"
+version = "0.3.0"
 description = "A Python library for conversion between Traditional and Simplified Chinese, inspired by MediaWiki's LanguageConverter."
 license = "MIT"
 authors = ["Dianliang233 <dianliang233@gmail.com>"]
