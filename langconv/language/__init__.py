@@ -27,7 +27,7 @@ class Language:
 
 def get_data_file_path(filename: str) -> str:
     """Gets the path to the given data file."""
-    return os.path.join(os.path.dirname(__file__), '../data', filename)
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), '../data', filename))
 
 
 __all__ = ['Language', 'get_data_file_path']
