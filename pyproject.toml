@@ -22,8 +22,8 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-attrs = "^23.2.0"
+python = ">=3.9"
+attrs = "^24.2.0"
 iso639-lang = "^2.2.3"
 
 [tool.poetry.group.dev.dependencies]
