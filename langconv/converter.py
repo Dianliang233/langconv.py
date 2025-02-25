@@ -187,6 +187,56 @@ class LanguageConverter:
 
         return segments
 
+    def convert_segment(
+        self,
+        segment: str | LCMarkup,
+        trie: Trie,
+        *,
+        sequential_global: bool = False,
+        avoid_html_code: bool = False,
+    ) -> str:
+        """Converts the given text to this language.
+
+        :param text: The text to convert.
+        :param sequential_global: If true, global conversion rules are parsed and added at where it first appears. Otherwise they are added at initialization, which is not compliant to vanilla MW behavior.
+        :param ignore_html: Whether to ignore "code" HTML tags (<pre>, <code> and <script>).
+        """
+
+        if isinstance(segment, str):
+            output: list[str] = []
+            i = 0
+            while i < len(segment):
+                match = self.longest_prefix(segment[i : i + SECTION_LENGTH], [trie])
+                if match:
+                    output += match.value
+                    i += len(match.full_key)
+                else:
+                    output.append(segment[i])
+                    i += 1
+            return ''.join(output)
+
+        if isinstance(segment.rule, LCMarkup.Raw):
+            return segment.rule.original
+
+        if not isinstance(
+            segment.rule,
+            LCMarkup.Unidirectional | LCMarkup.Omnidirectional,
+        ):
+            return ''
+
+        if segment.flag in (segment.Flag.SHOW, segment.Flag.COPY):
+            return (segment.rule.localize(self.language) or (None, ''))[1]
+
+        if sequential_global:
+            if segment.flag in (segment.Flag.HIDDEN, segment.Flag.COPY):
+                self.insert_rule(segment.rule, trie, self.language)
+            elif segment.flag == segment.Flag.REMOVE:
+                self.delete_rule(segment.rule, trie, self.language)
+
+        # TODO: Handle `avoid_html_code`
+
+        return ''
+
     def convert(
         self,
         text: str,
@@ -218,40 +268,12 @@ class LanguageConverter:
                 if segment.flag in (segment.flag.REMOVE, segment.Flag.HIDDEN):
                     segments.remove(segment)
 
-        output: list[str] = []
-        for segment in segments:
-            if isinstance(segment, str):
-                i = 0
-                while i < len(segment):
-                    match = self.longest_prefix(segment[i : i + SECTION_LENGTH], [trie])
-                    if match:
-                        output += match.value
-                        i += len(match.full_key)
-                    else:
-                        output.append(segment[i])
-                        i += 1
-                continue
-
-            if isinstance(segment.rule, LCMarkup.Raw):
-                output.append(segment.rule.original)
-                continue
-
-            if not isinstance(
-                segment.rule,
-                LCMarkup.Unidirectional | LCMarkup.Omnidirectional,
-            ):
-                continue
-
-            if segment.flag in (segment.Flag.SHOW, segment.Flag.COPY):
-                output.append((segment.rule.localize(self.language) or (None, ''))[1])
-
-            if sequential_global:
-                if segment.flag in (segment.Flag.HIDDEN, segment.Flag.COPY):
-                    self.insert_rule(segment.rule, trie, self.language)
-                elif segment.flag == segment.Flag.REMOVE:
-                    self.delete_rule(segment.rule, trie, self.language)
-
-            # TODO: Handle `avoid_html_code`
+        output = (
+            self.convert_segment(
+                segment, trie, sequential_global=sequential_global, avoid_html_code=avoid_html_code
+            )
+            for segment in segments
+        )
 
         return ''.join(output)
 

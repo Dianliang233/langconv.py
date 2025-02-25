@@ -19,3 +19,11 @@ def test_perf(benchmark: Benchmark):
     with open('tests/zh_cn.txt', encoding='utf-8') as large_txt:
         content = large_txt.read() * 5
         benchmark(cProfile.runctx, 'lc.convert(content)', {}, locals(), 'stats.prof')
+
+
+@pytest.mark.slow
+def test_perf_no_report(benchmark: Benchmark):
+    lc = LanguageConverter.from_language(zh_cn)
+    with open('tests/zh_cn.txt', encoding='utf-8') as large_txt:
+        content = large_txt.read() * 5
+        benchmark(lc.convert, content)
