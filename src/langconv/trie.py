@@ -11,7 +11,7 @@ class Node:
     value: str
     full_key: str
     parent: 'Node | None' = field(default=None)
-    children: dict[str, 'Node'] = field(factory=dict)
+    children: dict[str, 'Node'] = field(factory=lambda: {})
 
     def add_child(self, child: 'Node', key: str) -> None:
         self.children[key] = child
@@ -60,7 +60,7 @@ class Trie:
         node = self.root
         longest_match = None
         for char in key:
-            child = node.get_child(char)
+            child = node.children.get(char)
             if child is None:
                 break
             elif child.value:
@@ -68,6 +68,31 @@ class Trie:
             node = child
 
         return longest_match
+
+    def longest_prefix_at(self, text: str, start: int, stop: int) -> tuple[int, str] | None:
+        """Find the longest prefix of ``text[start:stop]`` stored in the trie.
+
+        ``stop`` is an exclusive upper bound and must not exceed ``len(text)``.
+        Returns the exclusive end index and the matched value, or ``None`` when
+        no prefix matches. Unlike :meth:`longest_prefix` this avoids allocating
+        a slice of the input, which makes it suitable for hot loops.
+        """
+        children = self.root.children
+        end = start
+        best_end = -1
+        best_value = ''
+        while end < stop:
+            child = children.get(text[end])
+            if child is None:
+                break
+            end += 1
+            children = child.children
+            if child.value:
+                best_end = end
+                best_value = child.value
+        if best_end == -1:
+            return None
+        return best_end, best_value
 
     def __contains__(self, key: str) -> bool:
         return self.search(key) is not None

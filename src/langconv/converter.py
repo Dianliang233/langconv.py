@@ -187,6 +187,36 @@ class LanguageConverter:
 
         return segments
 
+    def convert_text(self, text: str, trie: Trie) -> str:
+        """Converts a plain-text segment that contains no conversion markup.
+
+        :param text: The text to convert.
+        :param trie: The trie to use for conversion.
+        """
+        output: list[str] = []
+        append = output.append
+        i = 0
+        length = len(text)
+        # The per-conversion trie takes precedence over the base language
+        # rules, and an empty one can be skipped entirely.
+        rules = [trie, *self.rules] if trie.root.children else self.rules
+
+        while i < length:
+            stop = i + SECTION_LENGTH
+            stop = length if stop > length else stop
+            match: tuple[int, str] | None = None
+            for rule in rules:
+                match = rule.longest_prefix_at(text, i, stop)
+                if match is not None:
+                    break
+            if match is None:
+                append(text[i])
+                i += 1
+            else:
+                i, value = match
+                append(value)
+        return ''.join(output)
+
     def convert_segment(
         self,
         segment: str | LCMarkup,
@@ -203,17 +233,7 @@ class LanguageConverter:
         """
 
         if isinstance(segment, str):
-            output: list[str] = []
-            i = 0
-            while i < len(segment):
-                match = self.longest_prefix(segment[i : i + SECTION_LENGTH], [trie])
-                if match:
-                    output += match.value
-                    i += len(match.full_key)
-                else:
-                    output.append(segment[i])
-                    i += 1
-            return ''.join(output)
+            return self.convert_text(segment, trie)
 
         if isinstance(segment.rule, LCMarkup.Raw):
             return segment.rule.original
