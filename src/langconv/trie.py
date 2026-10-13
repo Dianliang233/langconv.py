@@ -5,7 +5,7 @@ from attrs import define, field
 # saves 48 bytes per CJK key
 
 
-@define
+@define(slots=True)
 class Node:
     key: str
     value: str

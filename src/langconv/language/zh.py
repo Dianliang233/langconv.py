@@ -1,4 +1,4 @@
-from ..language import Language, get_data_file_path
+from . import Language, get_data_file_path
 
 zh_cn = Language.from_json_files(
     'zh-cn',

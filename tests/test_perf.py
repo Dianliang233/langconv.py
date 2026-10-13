@@ -1,8 +1,8 @@
 import cProfile
-from typing import Callable, ParamSpec, Protocol
+from collections.abc import Callable
+from typing import ParamSpec, Protocol
 
 import pytest
-
 from langconv.converter import LanguageConverter
 from langconv.language.zh import zh_cn
 

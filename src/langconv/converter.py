@@ -224,14 +224,14 @@ class LanguageConverter:
         ):
             return ''
 
-        if segment.flag in (segment.Flag.SHOW, segment.Flag.COPY):
-            return (segment.rule.localize(self.language) or (None, ''))[1]
-
         if sequential_global:
             if segment.flag in (segment.Flag.HIDDEN, segment.Flag.COPY):
                 self.insert_rule(segment.rule, trie, self.language)
             elif segment.flag == segment.Flag.REMOVE:
                 self.delete_rule(segment.rule, trie, self.language)
+
+        if segment.flag in (segment.Flag.SHOW, segment.Flag.COPY):
+            return (segment.rule.localize(self.language) or (None, ''))[1]
 
         # TODO: Handle `avoid_html_code`
 

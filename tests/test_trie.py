@@ -1,5 +1,6 @@
 import json
 
+from langconv.language import get_data_file_path
 from langconv.trie import Trie
 
 # pyright: reportOptionalMemberAccess=false
@@ -123,7 +124,7 @@ def test_longest_prefix():
 
 
 def test_load_large_json():
-    with open('langconv/data/zh/hant.json', encoding='utf-8') as f:
+    with open(get_data_file_path('zh/hant.json'), encoding='utf-8') as f:
         trie = Trie.from_dict(json.load(f))
         assert (
             trie.longest_prefix(
